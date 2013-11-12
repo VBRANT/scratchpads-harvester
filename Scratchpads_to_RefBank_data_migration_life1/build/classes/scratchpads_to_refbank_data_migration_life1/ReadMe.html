@@ -1,0 +1,93 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>ReadMe</title>
+<style type="text/css">
+body {
+    color: navy;
+    font-family: Cambria, serif;
+	margin: 0 auto;
+	max-width: 960px;
+}
+blockquote {
+    border-left:.5em solid #eee;
+    padding: 0 2em;
+    margin-left:0;
+    max-width: 800px;
+}
+</style>
+</head>
+<body>
+<h1>Scratchpads to RefBank Harvester</h1>
+<h2>Introduction</h2>
+<p>The purpose of this software is to automatically populate RefBank, a component of the <a href="http://biblife.org/">bibliography of life</a> with all bibliographic references loaded into Scratchpads. Hence, all members of the biodiversity research community can benefit from curated references that are used in Scratchpads, without imposing any additional tasks on the researcher or Scratchpads administrator. </p>
+<h2>Workflow</h2>
+<p>The harvester has a two-stage workflow.</p>
+<p><strong><em>First stage: harvesting</em></strong> </p>
+<p>The data from Scratchpads sites is harvested and then saved in separate files, one file for each site.</p>
+<p>Scratchpads sites need to fulfil some criteria in order to be harvested:</p>
+<ul>
+<li>only Scratchpads 2 sites are harvested (at the time of writing the migration from Scratchpads had not completed), and</li>
+<li>there must be new entries in the Scratchpads site to harvest.</li>
+</ul>
+<p>All the Java classes created exclusively for this step are located in packages that names start with <code>h</code>.</p>
+<p><strong><em>Second stage: importing</em></strong></p>
+<p>This stage is for importing data from each file created by harvesting Scratchpads into RefBank server over HTTP. </p>
+<p>All the Java classes created exclusively for this step are located in packages that names start with <code>i</code>. For example, <code>i.files.importTo.RefBank</code>.</p>
+<p>It is possible to harvest <strong>all</strong> Scratchpads again by deleting the intermediate log files. You can find the file in the folder defined by:<br />
+<code>CommonConfigData.PATH_DATA_FILES + CommonConfigData.DIR_SEP + HarvesterConfigData.HARVESTING_DATA_ARCHIVE</code></p>
+<p>See Installation section below for more about setting the parameters used in this command.</p>
+<h2>Installation</h2>
+<p>The software can be downloaded from <a href="https://git.scratchpads.eu/v">ViBRANT's git repository</a> as an anonymous user with the following command:<br />
+<code>$ git clone https://git.scratchpads.eu/git/scratchpads-harvester.git</code></p>
+<p>The software is set up as a Java Netbeans project.</p>
+<p>The following libraries are required as well as the source software:</p>
+<ol>
+<li><a href="http://commons.apache.org/">Apache Commons</a>  
+</li>
+<li><a href="http://ezmorph.sourceforge.net/">EzMorph</a></li>
+<li><a href="http://hc.apache.org/">ApacheHttpClient</a></li>
+<li><a href="http://code.google.com/p/json-simple/">JSON.simple</a></li>
+</ol>
+<p>They are included in the git repository in the <code>libraries</code> folder.</p>
+<p>See also the image <code>ScratchpadsHarvesterLibraries.jpg</code> in that folder for the individual components within the libraries.  
+</p>
+<h2>Configuration</h2>
+<p>To run the software it must be configured by providing the following information:</p>
+<p>1) in the ConfigurationParameters.CommonConfigData.class:</p>
+<ul>
+<li>the folder where harvested data from Scratchpads is stored in files: PATH_HARVESTED_DATA</li>
+<li>harvested data format: DATA_FORMAT_FROM_Scratchpads</li>
+<li>the folder where log files are stored: PATH_LOG_FILES</li>
+<li>the folder where files essential for the application are stored: PATH_DATA_FILES</li>
+<li>If you require HTTP/S access to remote services from behind the OU firewall: PROXY_HOSTNAME and PROXY_PORT</li>
+</ul>
+<p>2) in the ConfigurationParameters.HarvesterConfigData.class:</p>
+<ul>
+<li>URL of JSON file with the list of current Scratchpads: CURRENT_Scratchpads_JSON_URL</li>
+<li>extension of the file where the harvested data will be stored: HARVESTED_DATA_FILE_EXTENSION</li>
+<li>the character or string that should be present at the beginning of data harvested from Scratchpad site: COMPULSORY_STRING</li>
+</ul>
+<p>3) in the ConfigurationParameters.ImporterConfigData.class:</p>
+<ul>
+<li>the URL where files (with data harvested from Scratchpads) are going to be accessed: HARVESTED_FILES_URL</li>
+<li>the user to credit for uploaded references to RefBank: USER_NAME</li>
+<li>import data to RefBank url: RefBank_UPLOAD_URL</li>
+</ul>
+<p>The Configuration files have additional comments.  
+</p>
+<p>These instructions are repeated in the main executable:  <code>Scratchpads_to_RefBank_data_migration_life1/src/scratchpads_to_refbank_data_migration_life1/Main.java</code></p>
+<h2>Licence</h2>
+<p>This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version.</p>
+<p>This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.</p>
+<p>You should have received a copy of the GNU General Public License along with this program (LICENSE.txt); if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.</p>
+<h2>Acknowledgement</h2>
+<p>This software was developed as part of the <a href="http://vbrant.eu/">ViBRANT project</a>.<br />
+ViBRANT was funded by the European Union 7th Framework Programme within the Research Infrastructures group.<br />
+Contract no. RI-261532. Period, Dec. 2010 to Nov. 2013.<br />
+Coordinator: <a href="mailto:vsmith.info">Dr Vince Smith</a>.<br />
+E-mail: <a href="mailto:enquiries@vbrant.eu">enquiries@vbrant.eu</a></p>
+<!-- This document was created with MarkdownPad, the Markdown editor for Windows (http://markdownpad.com) -->
+</body></html>
